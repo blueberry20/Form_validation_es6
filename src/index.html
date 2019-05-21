@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    
+     <!--======================REGISTRATION FORM=======================-->
+     <div class="abl--container-full">
+        <div class="abl--outer-wrapper">
+            <div class="abl--container abl--collapse-below">
+                <div class="abl--row">
+                    <div class="col--12 col--sm-10 col--sm-offset-1 padding-zero-sm">
+                        <div class="abl--row">
+                            <div class="col--12 col--sm-12 col--md-12">
+                                <h2 class="abl--padded-b abl--centered-h">Register to receive our newsletter</h2>
+                                
+                                <div class="abl--registration-form">
+                                    <div class="abl--row">
+                                        <div class="col--12 col--sm-9 col--sm-offset-3">
+                                            <p class="abl--note">All fields required</p>
+                                        </div>
+                                    </div>
+                                    <!--============First Name==========-->
+                                    <div class="abl--row">
+                                        <div class="col--12 col--sm-3">
+                                            <label for="firstNameInputForm">First Name</label>
+                                        </div>
+                                        <div class="col--12 col--sm-9 inputWrapper">
+                                            <input id="firstNameInputForm" class="required" name="firstNameInput" type="text" />
+                                        </div>
+                                    </div>
+                                    <!--================Last Name====================-->
+                                    <div class="abl--row">
+                                        <div class="col--12 col--sm-3">
+                                            <label for="lastNameInputForm">Last Name</label>
+                                        </div>
+                                        <div class="col--12 col--sm-9 inputWrapper">
+                                            <input class="required" id="lastNameInputForm" name="lastNameInput" type="text" />
+                                        </div>
+                                    </div>
+                                    <!--================Company====================-->
+                                    <div class="abl--row">
+                                        <div class="col--12 col--sm-3">
+                                            <label for="companyInputForm">Company</label>
+                                        </div>
+                                        <div class="col--12 col--sm-9 inputWrapper">
+                                            <input class="required" id="companyInputForm" name="companyInput" type="text" />
+                                        </div>
+                                    </div>
+                                    <!--================Country=====================-->
+                                    <div class="abl--row">
+                                        <div class="col--12 col--sm-3">
+                                            <label for="countryInputForm">Country</label>
+                                        </div>
+                                        <div class="col--12 col--sm-9 inputWrapper">
+                                            <select name="countryInput" id="countryInputForm" class="abl--select required">
+                                                <option value="" selected="selected">Select country</option> 
+                                                <option value="germany">Germany</option>
+                                                <option value="austria">Austria</option>
+                                                <option value="switzerland">Switzerland</option>
+                                                <option value="luxembourg">Luxembourg</option>
+                                            </select>
+                                        </div>
+                                    </div>   
+                                    <!--===============E-mail===================-->  
+                                    <div class="abl--row">
+                                        <div class="col--12 col--sm-3">
+                                            <label for="emailInputForm">E-mail</label>
+                                        </div>
+                                        <div class="col--12 col--sm-9 inputWrapper">
+                                            <input id="emailInputForm" class="required emailInput" name="emailInput" type="email" />
+                                        </div>
+                                    </div>     
+                                    <!--===============Role===================-->
+                                    <div class="abl--row">
+                                        <div class="col--12 col--sm-9 col--sm-offset-3 inputWrapper roleWrapper">
+                                            <label class="input-field-radio-label" for="privateInvestorRadio">
+                                                <input type="radio" 
+                                                id="privateInvestorRadio" name="investorRadio" value="private-investor" class="radio-field" /> Private Investor</label>
+                                            <label class="input-field-radio-label" for="institutionRadio">
+                                                <input type="radio" 
+                                                id="institutionRadio" name="investorRadio" value="institution" class="radio-field" /> Institution</label>
+                                        </div>
+                                    </div>     
+                                    <div class="abl--row">
+                                        <div class="col--12 col--sm-9 col--sm-offset-3 abl--padded-t">
+                                            <a href="javascript:void(0)" id="submitRegFormBtn" class="abl--button abl--button-square-teal-background">Submit</a>
+                                        </div>
+                                    </div>    
+                                    <div class="abl--row success-msg">
+                                        <div class="col--12 col--sm-9 col--sm-offset-3 abl--padded-t">
+                                            <p class="success">Thank you for your registration!</p>
+                                        </div>
+                                    </div>                                   
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+</body>
+</html>

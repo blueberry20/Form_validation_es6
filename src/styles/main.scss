@@ -1,0 +1,1281 @@
+// @import "../common.blocks/hero/hero";
+// @import "../common.blocks/hero/hero-brackets";
+// @import "../common.blocks/list/list-bulletted";
+// @import "../common.blocks/select/select";
+
+// /* grid variables */
+$grid-columns: 12;
+$grid-max-width:1525px;
+
+// /* break-point variables */
+$width-xl:1525px;
+$width-lg:1280px;
+$width-md:1024px;
+$width-sm:768px;
+$width-xs:480px;
+
+$gutter: 10px; // (20px when it doubles up)
+$gutters: $gutter * 2;
+$gutter-narrow: 40px;
+
+$w-md: $width-md - $gutters;
+$w-lg: $width-lg - $gutters;
+$w-xl: $width-xl - $gutters;
+
+$white : #ffffff;
+
+//  /**
+//   * PRIMARY PALETTE
+//   */
+
+$primary-cyan: #1E9BD7;
+$cyan: #1E9BD7;
+$primary: #1E9BD7;
+$primary-accent-teal: #50BEAF;
+$primary-accent: #50BEAF;
+$primary-accent-lime: #B1C425;
+$primary-accent-fuchsia: #B94B9B;
+$primary-accent-dusk-blue: #6987B9;
+$primary-accent-dusk-purple: #55469B;
+$primary-accent-purple-dk: #2D2D7D;
+
+
+//  /**
+//   * SECONDARY PALETTE
+//   */
+
+$secondary-blood-orange: #EB6A16;
+$secondary-orange: #FF9933;
+$secondary-green: #64B94B;
+$secondary-yellow: #FCBA17;
+$secondary-red: #FD5050;
+$secondary-teal: #6ECDCC;
+
+$gray1: #F0F0F0;
+$gray1a:#ececec;
+$gray2: #E5E5E5; 
+$gray3: #DADADA;
+$gray4: #CFCFCF;
+$gray5: #C4C4C4;
+$gray6: #B8B8B8;
+$gray7: #ADADAD;
+$gray8: #A2A2A2;
+$gray9: #979797;
+$gray10: #8C8C8C;
+$gray11: #666666;
+$gray12: #777777;
+$dark-gray: #444444;
+
+
+@mixin responsive-max($width){
+	@media (max-width:$width){
+		@content;
+	}
+}
+@mixin responsive-min($width){
+	@media (min-width:$width){
+		@content;
+	}
+}
+
+.abl--container-full {
+    width: 100%;
+    max-width: 100%;
+    clear: both;
+}
+
+.abl--outer-wrapper {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.abl--container:before {
+    content: " ";
+    display: table;
+}
+
+*:before, *:after {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.abl--row {
+    clear: both;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    margin-left: -10px;
+    margin-right: -10px;
+}
+
+.abl--row:before {
+    content: " ";
+    display: table;
+}
+
+[class^="col--"] {
+    float: left;
+    position: relative;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.col--0,
+.col--sm-0,
+.col--md-0,
+.col--lg-0 {
+    display: none;
+}
+
+@mixin column ($i){
+    width: 100% / $grid-columns * $i;
+    display: block;
+    padding-bottom: 0;
+    &-stacked{
+        width: 100% / $grid-columns * $i;
+        display: block;
+        padding-bottom: 20px;
+    }
+}
+
+// this is done separately to fix specificity issues
+@for $i from 1 through $grid-columns {
+    .col--#{$i} {
+        @include column($i);
+    }
+    .col--offset-#{$i} {
+        margin-left: 100% / $grid-columns * $i;
+        display: block;
+    }
+}
+
+@include responsive-min($width-sm){
+    @for $i from 1 through $grid-columns {
+        .col--sm-#{$i}{
+            @include column($i);
+        }
+        .col--sm-offset-#{$i} {
+            margin-left: 100% / $grid-columns * $i;
+            display: block;
+        }
+    }
+}
+@include responsive-min($width-md){   
+    @for $i from 1 through $grid-columns {
+        .col--md-#{$i}{
+            @include column($i);
+        }
+        .col--md-offset-#{$i} {
+            margin-left: 100% / $grid-columns * $i;
+            display: block;
+        }
+    }
+}
+@include responsive-min($width-lg){
+    @for $i from 1 through $grid-columns {
+        .col--lg-#{$i}{
+            @include column($i);
+        }
+        .col--lg-offset-#{$i} {
+            margin-left: 100% / $grid-columns * $i;
+            display: block;
+        }
+    }
+}
+
+select.abl--select {
+    width: 100%;
+    padding: 10px;
+    min-width: 120px;
+    outline: none;
+    cursor: pointer;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-color: #fff;
+    background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48c3ZnIHdpZHRoPSIxMnB4IiBoZWlnaHQ9IjdweCIgdmlld0JveD0iMCAwIDEyIDciIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+ICAgICAgICA8dGl0bGU+RHJvcGRvd24gQ2Fycm90PC90aXRsZT4gICAgPGRlc2M+Q3JlYXRlZCB3aXRoIFNrZXRjaC48L2Rlc2M+ICAgIDxkZWZzPjwvZGVmcz4gICAgPGcgaWQ9IkxpdGVyYXR1cmUtVGFiIiBzdHJva2U9Im5vbmUiIHN0cm9rZS13aWR0aD0iMSIgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPiAgICAgICAgPGcgaWQ9IkxpdGVyYXR1cmUtQ2VudGVyLS0tREVTS1RPUCIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTE0OTIuMDAwMDAwLCAtMTcxNi4wMDAwMDApIiBzdHJva2U9IiM0NDQ0NDQiIHN0cm9rZS13aWR0aD0iMiI+ICAgICAgICAgICAgPGcgaWQ9IkRyb3Bkb3duLUNhcnJvdCIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTQ5My4wMDAwMDAsIDE3MTcuMDAwMDAwKSI+ICAgICAgICAgICAgICAgIDxwb2x5bGluZSBpZD0iUGF0aC0yIiBwb2ludHM9IjAgMCA1LjAyODk1NzczIDQuNjY2NjY2NjcgOS44NzY1NDMyMSAwIj48L3BvbHlsaW5lPiAgICAgICAgICAgIDwvZz4gICAgICAgIDwvZz4gICAgPC9nPjwvc3ZnPg==);
+    background-repeat: no-repeat;
+    background-position: 95% 50%;
+    height:40px;
+}
+
+select::-ms-expand {
+    display: none;
+}
+
+.abl--{
+    &button{
+        display: inline-block;
+        text-decoration: none;
+        // font-family: $k-bold;
+        text-transform: uppercase;
+        width: auto;
+        padding: 14px 14px 11px 14px;
+        border-radius: 4px;
+        border-width: 3px;
+        border-style: solid;
+        font-size: 1em;
+        cursor: pointer;
+        // &-japan{
+        //     font-family: "MS PGothic";
+        // }
+        &-big{
+            padding: 20px 30px;
+            font-size: 1.5em;
+        }
+        &-primary{
+            background-color: $cyan;
+            color: $white;
+            border-color: $cyan;
+            &:hover{
+                // background-color: $cyan-tint2;
+                background-color: $white;
+                color: $cyan;
+                text-decoration: none;
+            }
+            &-inactive{
+                background-color: $gray7;
+                color: $white;
+                border-color: $gray7;
+                &:hover{
+                    background-color: $gray7;
+                    color: $white;
+                    cursor: default;
+                    text-decoration: none;
+                }
+            }
+        }
+        &-secondary{
+            background-color: transparent;
+            color: $cyan;
+            border: 3px solid $cyan;
+            &:hover{
+                background-color: $cyan;
+                color: $white;
+                text-decoration: none;
+            }
+            &-inactive{
+                background-color: transparent;
+                color: $gray7;
+                border-color: $gray7;
+                &:hover{
+                    background-color: transparent;
+                    color: $gray7;
+                    cursor: default;
+                    text-decoration: none;
+                }
+            }
+        }
+        &-tertiary{
+            background-repeat: no-repeat;
+            background-position: right center;
+            background-color: transparent;
+            background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+PHN2ZyB3aWR0aD0iMTNweCIgaGVpZ2h0PSIyMHB4IiB2aWV3Qm94PSIwIDAgMTMgMjAiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+ICAgICAgICA8dGl0bGU+RTJEM0E5MTYtNzM3Ri00QzhELTk5QTEtQkMyNUFGRkVGRTVCPC90aXRsZT4gICAgPGRlc2M+Q3JlYXRlZCB3aXRoIHNrZXRjaHRvb2wuPC9kZXNjPiAgICA8ZGVmcz48L2RlZnM+ICAgIDxnIGlkPSJTeW1ib2xzIiBzdHJva2U9Im5vbmUiIHN0cm9rZS13aWR0aD0iMSIgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPiAgICAgICAgPGcgaWQ9IkxpbmstLS1saWdodC1iYWNrZ3JvdW5kIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMTI0LjAwMDAwMCwgLTMuMDAwMDAwKSIgc3Ryb2tlPSIjMUU5QkQ3IiBzdHJva2Utd2lkdGg9IjMiPiAgICAgICAgICAgIDxnIGlkPSJCdXR0b24tLS1Cb3JkZXJsZXNzLS0tTGV2ZWwtNCIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTYuMDAwMDAwLCAyLjAwMDAwMCkiPiAgICAgICAgICAgICAgICA8cG9seWxpbmUgaWQ9IlBhdGgtMiIgcG9pbnRzPSIxMzIgMyAxNDEgMTEuNjQ4Mzg3MSAxMzIgMTkiPjwvcG9seWxpbmU+ICAgICAgICAgICAgPC9nPiAgICAgICAgPC9nPiAgICA8L2c+PC9zdmc+);
+            padding-right: $gutters;
+            // font-family: $k-bold;
+            font-size: 1.4em;
+            color: $cyan;
+            border: none;
+            padding-left: 0;
+            &:hover{
+                background-color: transparent;
+                color: $cyan;
+                text-decoration: underline;
+            }
+        }
+        &-tertiary-back{
+            background-repeat: no-repeat;
+            background-position: left center;
+            background-color: transparent;
+            background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48c3ZnIHdpZHRoPSIxMXB4IiBoZWlnaHQ9IjE2cHgiIHZpZXdCb3g9IjAgMCAxMSAxNiIgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIj4gICAgICAgIDx0aXRsZT5QYXRoIDI8L3RpdGxlPiAgICA8ZGVzYz5DcmVhdGVkIHdpdGggU2tldGNoLjwvZGVzYz4gICAgPGRlZnM+PC9kZWZzPiAgICA8ZyBpZD0iTGl0ZXJhdHVyZS1UYWIiIHN0cm9rZT0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIxIiBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+ICAgICAgICA8ZyBpZD0iTGl0ZXJhdHVyZS1DZW50ZXItLS1ERVNLVE9QIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMTg0NS4wMDAwMDAsIC0yODUxLjAwMDAwMCkiIHN0cm9rZT0iIzFFOUJENyIgc3Ryb2tlLXdpZHRoPSIzIj4gICAgICAgICAgICA8cG9seWxpbmUgaWQ9IlBhdGgtMiIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTg1MC41MDAwMDAsIDI4NTkuMjIyMjIyKSBzY2FsZSgtMSwgMSkgdHJhbnNsYXRlKC0xODUwLjUwMDAwMCwgLTI4NTkuMjIyMjIyKSAiIHBvaW50cz0iMTg0NyAyODUzIDE4NTQgMjg1OS43MjY1MiAxODQ3IDI4NjUuNDQ0NDQiPjwvcG9seWxpbmU+ICAgICAgICA8L2c+ICAgIDwvZz48L3N2Zz4=);
+            padding-left: $gutters;
+            // font-family: $k-bold;
+            font-size: 1.4em;
+            color: $cyan;
+            border: none;
+            padding-right: 0;
+            &:hover{
+                background-color: transparent;
+                color: $cyan;
+                text-decoration: underline;
+            }
+        }
+    }
+    
+    &button-remove{
+        background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48c3ZnIHdpZHRoPSIyN3B4IiBoZWlnaHQ9IjI3cHgiIHZpZXdCb3g9IjAgMCAyNyAyNyIgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIj4gICAgICAgIDx0aXRsZT5YIEJ1dHRvbjwvdGl0bGU+ICAgIDxkZXNjPkNyZWF0ZWQgd2l0aCBTa2V0Y2guPC9kZXNjPiAgICA8ZGVmcz48L2RlZnM+ICAgIDxnIGlkPSJMaXRlcmF0dXJlLVRhYiIgc3Ryb2tlPSJub25lIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj4gICAgICAgIDxnIGlkPSJMaXRlcmF0dXJlLUNlbnRlci0tLUVtYWlsLU1vZGFsLS0tREVTS1RPUCIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTEyNTIuMDAwMDAwLCAtMTU2Ny4wMDAwMDApIiBzdHJva2U9IiM0NDQ0NDQiIHN0cm9rZS13aWR0aD0iMyI+ICAgICAgICAgICAgPGcgaWQ9IlBvcHVwLVRhYmxlLUVxdWl0eSIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNTc0LjAwMDAwMCwgODc2LjAwMDAwMCkiPiAgICAgICAgICAgICAgICA8ZyBpZD0iWC1CdXR0b24iIHRyYW5zZm9ybT0idHJhbnNsYXRlKDY2OC4wMDAwMDAsIDY4Mi4wMDAwMDApIj4gICAgICAgICAgICAgICAgICAgIDxnIGlkPSJHcm91cCIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMjMuMzc2NDcxLCAyMy4zNzY0NzEpIHJvdGF0ZSgxMzUuMDAwMDAwKSB0cmFuc2xhdGUoLTIzLjM3NjQ3MSwgLTIzLjM3NjQ3MSkgdHJhbnNsYXRlKDYuNjQ3NjU3LCA3LjA0NTk2MikiPiAgICAgICAgICAgICAgICAgICAgICAgIDxwYXRoIGQ9Ik0xNS41NDgzMDU3LDIwLjE2ODIgTDE1LjU0ODMwNTcsMzIuNTk5Nzk3OCIgaWQ9IlBhdGgtMyI+PC9wYXRoPiAgICAgICAgICAgICAgICAgICAgICAgIDxwYXRoIGQ9Ik0xOS41OTc2MTI1LDE2LjE5NjI2MDEgTDMyLjM1ODg0ODYsMTYuMTk2MjYwMSIgaWQ9IlBhdGgtMyI+PC9wYXRoPiAgICAgICAgICAgICAgICAgICAgICAgIDxwb2x5bGluZSBpZD0iUGF0aC0yIiBwb2ludHM9IjE1LjkzMjIwMzQgMC4xNTUxMTE3MyAxNS45MzIyMDM0IDE2LjE0NjAyODYgMC4zMTI0NDM3NjggMTYuMTQ2MDI4NiI+PC9wb2x5bGluZT4gICAgICAgICAgICAgICAgICAgIDwvZz4gICAgICAgICAgICAgICAgPC9nPiAgICAgICAgICAgIDwvZz4gICAgICAgIDwvZz4gICAgPC9nPjwvc3ZnPg==);
+        display: block;
+        width: 27px;
+        height: 27px;
+        background-repeat: no-repeat;
+        text-indent: -10000px;
+        cursor: pointer;
+        &.right{
+            float: right;
+        }
+    }
+    &button-back{
+        width: auto;
+        padding: 14px 14px 11px 18px;
+        // font-family: $k-bold;
+        text-transform: uppercase;
+        background-repeat: no-repeat;
+        background-position-y: center;
+        background-position-x: left;
+        background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48c3ZnIHdpZHRoPSIxMXB4IiBoZWlnaHQ9IjE2cHgiIHZpZXdCb3g9IjAgMCAxMSAxNiIgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIj4gICAgICAgIDx0aXRsZT5QYXRoIDI8L3RpdGxlPiAgICA8ZGVzYz5DcmVhdGVkIHdpdGggU2tldGNoLjwvZGVzYz4gICAgPGRlZnM+PC9kZWZzPiAgICA8ZyBpZD0iTGl0ZXJhdHVyZS1UYWIiIHN0cm9rZT0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIxIiBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+ICAgICAgICA8ZyBpZD0iTGl0ZXJhdHVyZS1DZW50ZXItLS1ERVNLVE9QIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMTg0NS4wMDAwMDAsIC0yODUxLjAwMDAwMCkiIHN0cm9rZT0iIzFFOUJENyIgc3Ryb2tlLXdpZHRoPSIzIj4gICAgICAgICAgICA8cG9seWxpbmUgaWQ9IlBhdGgtMiIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTg1MC41MDAwMDAsIDI4NTkuMjIyMjIyKSBzY2FsZSgtMSwgMSkgdHJhbnNsYXRlKC0xODUwLjUwMDAwMCwgLTI4NTkuMjIyMjIyKSAiIHBvaW50cz0iMTg0NyAyODUzIDE4NTQgMjg1OS43MjY1MiAxODQ3IDI4NjUuNDQ0NDQiPjwvcG9seWxpbmU+ICAgICAgICA8L2c+ICAgIDwvZz48L3N2Zz4=);
+        margin-right: $gutter;
+    }
+}
+
+h2 {
+    // font-family: $k-bold;
+    font-size: 2.25em;
+    text-align:center;
+}
+
+h3 {
+    font-size:1.75em;
+    margin:15px 0;
+    // font-family: $k-medium;
+}
+
+h5 {
+    font-size:1em;
+}
+
+p {
+    font-size:1.25em;
+
+    &.teaser {
+        font-size:1.75em;
+
+        //1280 from variables.scss
+        @include responsive-max($width-lg){
+            font-size: 1.5em;
+        }
+    }
+
+    &.footnote {
+        font-size:1em;
+    }
+}
+
+.ab-footer {
+    p {
+        font-size:1em;
+    }
+}
+
+a {
+    text-decoration: none;
+    color:#000;
+}
+
+.abl--insights-date {
+    text-transform: uppercase;
+    // font-family: $k-light;
+    font-size: 1em;
+    margin-bottom:10px;
+}
+
+.abl--button-square-teal-border {
+    border:1px solid $primary-accent-teal;
+    font-weight:600;
+    color: $primary-accent-teal !important;
+    border-radius:0;
+    text-transform: uppercase;
+    
+    &:hover {
+        background-color: $primary-accent-teal;
+        color: #fff !important;
+        text-decoration:none !important;
+    }
+}
+.abl--button-square-teal-background {
+    @extend .abl--button-square-teal-border;
+    color: #fff !important;
+    text-transform: uppercase;
+    background-color: $primary-accent-teal;
+    
+    &:hover {
+        background-color: #fff;
+        color: $primary-accent-teal !important;
+    }
+}
+
+/*===============Shared classes. Add to pattern library====================*/
+
+//add to pattern library later. extra large padding bottom when less than 1280px
+.abl--lg-padded-b-lg {
+    @include responsive-max($width-lg){
+        padding-bottom:40px;
+    }
+}
+
+//extra padding bottom when the width is less than 1280px
+.abl--lg-padded-b {
+    @include responsive-max($width-lg){
+        padding-bottom:20px;
+    }
+}
+
+//extra padding bottom when the width is less than 1024
+.abl--md-padded-b {
+    @include responsive-max($width-md){
+        padding-bottom:20px;
+    }
+}
+
+//extra padding bottom when the width is less than 768
+.abl--sm-padded-b-lg {
+    @include responsive-max($width-sm){
+        padding-bottom:40px;
+    }
+}
+
+//add to pattern library - zero padding when less than 768
+.padding-zero-sm {
+    @include responsive-max($width-sm){
+        padding:0 !important;
+    }
+}
+
+//remove padding top only when less than 1280
+.abl--lg-collapse-top {
+    //1280
+    @include responsive-max($width-lg){
+        padding-top:0;
+    }
+}
+
+//show separator line only on mobile
+.abl--container-separator-sm {
+    @include responsive-max($width-sm){
+        border-bottom: 5px solid #c4c4c4;
+    }
+}
+
+//extra padding top on mobile
+.abl--sm-padded-t {
+    @include responsive-max($width-sm){
+        padding-top:20px;
+    }
+}
+
+.mobile {
+    display:none;
+    @include responsive-max($width-sm){
+        display:block;
+    }
+}
+
+.desktop {
+    display:block;
+    @include responsive-max($width-sm){
+        display:none;
+    }
+}
+
+.uppercase {
+    text-transform:uppercase;
+}
+
+.relative {
+    position:relative;
+}
+
+.abl--extra-padding-sm {
+    padding:20px;
+}
+
+//no side padding on mobile
+.abl--sm-zero-side-padding {
+    @include responsive-max($width-sm){
+        padding-left:0;
+        padding-right:0;
+    }
+}
+
+.flex {
+    display:flex;
+    flex-wrap:wrap;
+}
+
+.abl--separator-mobile {
+    @include responsive-max($width-sm){
+        border-bottom:5px solid #c4c4c4;
+        padding-bottom:40px !important;
+    }
+}
+
+.invalid {
+    border:1px solid red;
+}
+
+::-webkit-input-placeholder { /* WebKit browsers */
+    text-transform: none;
+}
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    text-transform: none;
+}
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+    text-transform: none;
+}
+:-ms-input-placeholder { /* Internet Explorer 10+ */
+    text-transform: none;
+}
+::placeholder { /* Recent browsers */
+    text-transform: none;
+}
+
+.abl--margin-top-none {
+    margin-top:0 !important;
+}
+
+//make background white on mobile
+.white-bg-mobile {
+    @include responsive-max($width-sm){
+        background-color: #fff !important;
+    }
+}
+
+/*===============End of shared classes. add to pattern library====================*/
+
+.insights--3-row {  
+    h3 {
+        font-size:1em;
+        padding-bottom: 0.5em;
+        line-height:1.1em;
+        padding-top: 0.7em;
+        margin:0;
+    }
+    .abl--insights-date {
+        font-size:0.873em;
+        margin-bottom: 0.5em;
+    }
+
+    p {
+        font-size:1em;
+    }
+}
+
+//3 insights per row and 4 insights per row share styles
+.insights--4-row {
+    @extend .insights--3-row;
+}
+
+.abl--insights-container {
+
+    a {
+        color: #000;
+        &:hover {
+            color: $primary-accent-teal;
+        }
+    }
+}
+
+// ul.abl--list-bulletted li.bullet-purple {
+//     background-image: url("../images/icons/i-list-bullet-purple.svg");
+// }
+
+.list-card-wrapper {
+    background-color: #fff;
+    padding: 20px;
+}
+
+/*=================================CHIEF ECONOMIST VIEWPOINT================================================*/
+
+/*============INSIGHTS BLOCK PICTURE AND TEXT SIDE BY SIDE===============*/
+.abl--insights-block-side-by-side {
+    .abl--video-icon {
+        right:15px;
+        bottom:8px;
+    }
+
+    h3 {
+        font-size:1em;
+        padding-bottom: 0.5em;
+        line-height:1.1em;
+        padding-top: 0;
+        margin:0;
+
+        @include responsive-max($width-sm){
+            padding-top:0.7em;
+        }
+    }
+
+    p {
+        font-size:1em;
+        line-height:1.4em;
+    }
+
+    .abl--insights-date {
+        font-size:0.873em;
+        margin-bottom:0.5em;
+    }
+}
+
+.abl--bio-block {
+    h3 {
+        // font-family: $k-light;
+        font-size:1.5em;
+        margin-bottom:20px;
+    }
+    p {
+        font-size: 1em;
+        line-height:1.4em;
+    }
+}
+
+.abl--no-decoration {
+    color:#000;
+    text-decoration: none;
+    &:hover {
+        color: $primary-accent-teal;
+    }
+}
+
+.abl--video-icon {
+    position: absolute;
+    right: 7px;
+    bottom: 10px;
+    background: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPHN2ZyB2ZXJzaW9uPSIxLjEiIGlkPSJMYXllcl8xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB4PSIwcHgiIHk9IjBweCIKCSB2aWV3Qm94PSIwIDAgNDMgNDMiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDQzIDQzOyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+CjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+Cgkuc3Qxe2ZpbGwtcnVsZTpldmVub2RkO2NsaXAtcnVsZTpldmVub2RkO2ZpbGw6IzUwQkVBRjt9Cgkuc3Qye2ZpbGw6bm9uZTtzdHJva2U6I0ZGRkZGRjtzdHJva2Utd2lkdGg6MjtzdHJva2UtbGluZWNhcDpyb3VuZDtzdHJva2UtbGluZWpvaW46cm91bmQ7c3Ryb2tlLW1pdGVybGltaXQ6MTA7fQo8L3N0eWxlPgo8Zz4KCTxjaXJjbGUgY2xhc3M9InN0MSIgY3g9IjIxLjUiIGN5PSIyMS41IiByPSIyMSIvPgoJPGc+CgkJPHBhdGggY2xhc3M9InN0MiIgZD0iTTI0LjcsNS41YzcuMywxLjUsMTIuOCw4LDEyLjgsMTUuOGMwLDguOS03LjIsMTYuMi0xNiwxNi4ycy0xNi03LjItMTYtMTYuMkM1LjUsMTMuNSwxMSw3LDE4LjMsNS41Ii8+CgkJPHBvbHlsaW5lIGNsYXNzPSJzdDIiIHBvaW50cz0iMTksMTIuOCAyNy42LDIxLjQgMTkuMSwyOS45IDE5LjEsMTguNSAJCSIvPgoJPC9nPgo8L2c+Cjwvc3ZnPgo=") no-repeat center center;
+	width: 35px;
+	height: 35px;
+}
+.abl--video-img{
+    position: relative;
+}
+
+/*============MOST POPULAR INSIGHTS BLOCK===============*/
+.abl--mp-wrapper {
+    h3 {
+        font-size: 1.142em;
+        text-transform:uppercase;
+    }
+
+    a {
+        color:#000;
+        text-decoration:none;
+        outline:0;
+        &:hover {
+            color: $primary-accent-teal;
+        }
+    }
+}
+.abl--mp-block {
+    display:flex;
+    border-bottom:1px solid #cccccc;
+    align-items:center;
+    padding:10px;
+
+    .mp-nmbr {
+        // font-family: $k-medium;
+        padding:0 15px 0 0;
+        line-height:1.3em;
+        font-size: 1.6em!important;
+    }
+    p {
+        display: block;
+        margin:0;
+        padding: 0;
+        padding-right: 10px;
+        line-height: 1.3em;
+    }
+}
+
+/*============REGISTRATION FORM===============*/
+
+.abl--registration-form {
+    width: 50%;
+    margin:0 auto;
+
+    input[type="text"] {
+        width:100%;
+        height:40px;
+        padding:0 10px;
+        line-height:1;
+        box-sizing:border-box;
+    }
+
+    input[type="email"] {
+        width:100%;
+        height:40px;
+        padding:0 10px;
+        line-height:1;
+        box-sizing:border-box;
+    }
+
+    label.input-field-radio-label {
+        position: relative;
+        display: inline-block;
+        margin-right: 15px;
+    }
+
+    select {
+        @extend input;
+    }
+
+    .abl--row {
+        padding:20px 0;
+    }
+
+    label {
+        font-size:1.25em;
+        line-height:40px;
+
+        @include responsive-max($width-sm){
+            line-height: initial;
+            display: block;
+            padding-bottom: 5px;
+        }
+    }
+    .abl--note {
+        text-transform: uppercase;
+        font-size:16px;
+        margin-bottom:0;
+    }
+    .invalid {
+        border:1px solid red;
+    }
+    .invalidRadio {
+        color:red;
+    }
+
+    p.success {
+        font-size:1.5em;
+    }
+
+    .success-msg {
+        display:none;
+    }
+
+    p.error {
+        color:red;
+        margin:0;
+        padding-top:5px;
+        display:none;
+        font-size:1em;
+    }
+    .cancel-button {
+        &.abl--button{
+            min-width:auto;
+        }
+    }
+    //1280
+     @include responsive-max($width-lg){
+        width:80%;
+     }
+
+    @include responsive-max($width-md){
+        width:100%;
+    }
+}
+
+.radio-field {
+    margin-right:5px;
+}
+
+/*================SIDE REGISTRATION FORM======================*/
+
+.abl--side-form {
+    background-color: #fff;
+    padding:20px;
+
+    @include responsive-max($width-sm){
+        padding:0;
+    }
+
+    .abl--registration-form {
+        width:100%;
+    }
+    .footnote-wrapper {
+        padding:0 10px;
+    }
+}
+
+.footnote-wrapper {
+    padding:10px;
+    p {
+        margin-bottom:5px;
+    }
+    a {
+        color: #1E9BD7;
+    }
+}
+
+/*============FUND CONTAINER===============*/
+.abl--fund-container {
+    .abl--fund-heading{
+        // font-family:$k-bold;	
+        font-size: 2.571em;	
+        line-height:1.1em;
+    }
+    .abl--fund-box{
+        background-color:$white;
+    }
+    .abl--fund-margin-minus{
+        margin-left:-10px;
+    }
+    .abl--flex{
+       margin-top: 0px;
+       margin-bottom: 0px;  
+    }
+    .abl--card-footer{
+        padding:20px 0px;
+    }
+    .abl--fund-lable_ISR{
+        // background-image: url('../images/campaign-pages/Label-ISR-documents-officiels.png');
+        width: 170px;
+        height: 176px;
+        margin-top: -20px;
+    }
+    h4 {
+        font-size: 1.75em;
+    }
+}
+
+
+/*================ABIQ======================*/
+
+.abl--bg-overlay {
+    z-index: 100;
+    width: 100%;
+    height: 110%;
+    background: rgba(0,0,0,0.75);
+    position: fixed;
+    left:0;
+    top:0;
+    display:none;
+}
+
+.abl--subscribe-link {
+    // font-family: $k-bold;
+    // background: url(../images/campaign-pages/ab-retail-login-arrow.png) no-repeat top right;
+    display:inline-block;
+    padding: 0px 20px 15px 0px;
+    line-height: 20px;
+    &:hover {
+        text-decoration:underline !important;
+    }
+
+    @include responsive-max($width-sm){
+        padding-bottom:0;
+    }
+}
+
+/*==================Modal form====================*/
+.abl--registration-modal {
+    position:relative;
+    margin:60px auto 0;
+    width: 700px;
+    background-color: #fff;
+    padding: 20px;
+    z-index: 10;
+    -webkit-box-shadow: 6px 6px 22px rgba(35, 33, 32, 0.15);
+    -moz-box-shadow: 6px 6px 22px rgba(35, 33, 32, 0.15);
+    box-shadow: 6px 6px 22px rgba(35, 33, 32, 0.15);
+    max-height:70%;
+    overflow-y: auto;
+    display:none;
+
+    @include responsive-max($width-md){
+        width:80%;
+    }
+
+    .abl--registration-form label.input-field-radio-label {
+        line-height:30px;
+    }
+
+    .abl--button-remove {
+        position:absolute;
+        right:20px;
+        top:20px;
+    }
+
+    .abl--registration-form {
+        width:100%;
+    }
+    .gray-box {
+        height:500px;
+        width:100%;
+        background-color: gray;
+    }
+
+    .abl--registration-form .abl--row {
+        margin: 5px 0;
+    }
+
+    .roleWrapper {
+        margin:10px 0;
+    }
+    .cancel-button {
+        &.abl--button{
+            min-width:auto;
+        }
+    }
+
+}
+
+.abl--confirmation-modal {
+    width: 500px;
+    background-color: #fff;
+    margin: 0 auto;
+    top: 100px;
+    margin-top: 100px;
+    padding: 20px;
+    text-align: center;
+    position: relative;
+
+    .abl--button-remove {
+        position:absolute;
+        right:20px;
+        top:20px;
+    }
+}
+
+.margin-left-10 {
+    margin-left:10px;
+}
+
+
+.neutral-bg {
+    &.abiq {
+        @include responsive-max($width-sm){
+            background-color:#fff !important;
+        }
+    }
+}
+
+.cancel-button {
+    &.abl--button {
+        min-width:70px;
+    }
+}
+
+
+.abl--side-confirmation {
+    height: 500px;
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    text-align:center;
+
+    p {
+        color: #adadad;
+        // font-family: $k-bold;
+        margin: 15px 0 0;
+    }
+}
+
+.abl--side-confirmation-wrapper-desktop {
+    display:none;
+}
+
+.abl--confirmation-wrapper-mobile {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background-color: #fff;
+    right: 0;
+    bottom: 0;
+    text-align: center;
+    display:none;
+    z-index:10;
+    padding-top:140px;
+
+    p {
+        font-size:1.5em;
+    }
+}
+
+.confirmation-overlay {
+    p {
+        font-size: 1.5em;
+    }
+}
+
+/*=======================ABIQ MOCK ARTICLE============================*/
+
+    .mock-p {
+        width: 100%;
+        height: 30px;
+        background-color: #adadad;
+        margin-bottom:10px;
+    }
+    
+    #abiq-post {
+        .registration-overlay {
+            display:block;
+        }
+        #abl--side-form {
+            display:none;
+            padding-top:100px;
+        }
+    }
+
+
+/*=======================EUROPE EX UK============================*/
+
+.columns-with-pipes {
+    margin-top:40px !important;
+    display:flex;
+
+    @include responsive-max($width-md){
+        display:block;
+    }
+
+    @include responsive-max($width-sm){
+        margin-top:20px !important;
+    }
+
+    .flex-col {
+        border-right:1px solid #adadad;
+        padding:20px 20px 60px;
+        width:33.33%;
+        position:relative;
+
+        @include responsive-max($width-sm){
+            width:100%;
+            border-bottom:2px solid #c4c4c4;
+            border-right:none;
+        }
+    }
+    div:last-child {
+        border:none;
+    }
+    .abl--subscribe-link {
+        text-transform:uppercase;
+        position: absolute;
+        bottom: 20px;
+        left: 20px;
+    }
+    .icon {
+        height:90px;
+    }
+    h3 {
+        font-size:1.5em;
+    }
+}
+
+.abl--list-block {
+    display: flex;
+    background-color: #f0f0f0;
+    height: 80px;
+    align-items:center;
+    margin-bottom:20px;
+
+    @include responsive-max($width-md){
+        height: auto;
+        display:block;
+    }
+
+    .list-text {
+        padding:15px;
+        height:80px;
+        @include responsive-max($width-md){
+            height:auto;
+            padding-left:100px;
+        }
+    }
+    .list-nmbr {
+        height:80px;
+        @include responsive-max($width-md){
+            float:left;
+        }
+    }
+    h4 {
+        font-size:1.3em;
+        margin-bottom:5px;
+    }
+    p {
+        margin-bottom:0;
+    }
+}
+
+.abl--list-block:last-child {
+    margin-bottom:0;
+}
+
+
+.img-wrapper {
+    width:66%;
+    padding-right:20px;
+
+    .contained {
+        height:auto;
+    }
+    h4 {
+        font-size:1em;
+    }
+}
+
+.icon-wrapper {
+    width:34%;
+    padding-right:30px;
+    img {
+        width:100%;
+    }
+}
+
+.abl--card-outlined {
+    &.teal {
+        border-color: $primary-accent-teal;
+    }
+    h3.num {
+        font-size:4em;
+    }
+}
+
+ul.list-links-files  {
+    li a {
+        background-size: 40px 40px;
+        padding:15px 65px 15px 0;
+        font-size:1.3em;
+        background-repeat: no-repeat;
+        background-position: right center;
+        &:hover {
+            color: $primary-accent-teal;
+        }
+    }
+
+    // li.icon-pdf a {
+    //     background-image: url(../images/campaign-pages/PDFButtonIcon.svg);
+    //     background-size: 40px 40px;
+    // }
+    // li.icon-link a {
+    //     background-image: url(../images/campaign-pages/LinkButtonIcon.svg);
+    //     background-size: 40px 40px;
+    // }
+    
+    // li.icon-video a {
+    //     background-image: url(../images/campaign-pages/VideoButtonIcon.svg);
+    //     background-size: 40px 40px;
+    // }
+    
+}
+
+.emailSection {
+    padding-left:20px;
+
+    @include responsive-max($width-sm){
+        padding:40px 10px 0;
+    }
+
+    h3 {
+        font-size: 1.3em;
+        margin-top: 0;
+        margin-bottom:10px;
+    }
+    p {
+        margin-bottom: 10px;
+    }
+    .emailInput {
+        width: 100%;
+        height: 40px;
+        margin-bottom: 10px;
+        padding: 10px;
+        @include responsive-max($width-sm){
+            margin-bottom:15px;
+        }
+    }
+    p.success {
+        font-weight:600;
+        margin-top:10px;
+        display:none;
+    }
+}
+
+.abl--contact-container {
+    p {
+        font-size:1em;
+        margin-bottom:5px;
+    }
+}
+
+.abl--video-wrapper {
+    overflow:initial;
+    a {
+        &:hover {
+            color:#000;
+            text-decoration:none;
+        }
+    }
+}
+
+.ab-feature-video-wrapper {
+    position: relative;
+
+    .ab-fv-overlay {
+        background-color: #fff;
+        width: 65%;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        height: 90%;
+        padding: 30px;
+
+        @include responsive-max($width-sm){
+            position: relative;
+            width: 80%;
+            top: -25px;
+        }
+
+        h2 {
+            text-transform: uppercase;
+            font-size: 1.6em;
+        }
+
+        .title {
+            position:absolute;
+            bottom:30px;
+            @include responsive-max($width-sm){
+                position: relative;
+                bottom: auto;
+                padding-top: 25px;
+            }
+        }
+        h3 {
+            display: inline;
+            text-transform: uppercase;
+            font-size: 1em;
+        }
+        p {
+            display:inline;
+            font-size:1em;
+        }
+    }    
+    .lg-play-button {
+        position: absolute;
+        width: 200px;
+        left: 50%;
+        bottom: -30px;
+        margin-left: -100px;
+        @include responsive-max($width-sm){
+            top: 70px;
+            width: 70px;
+            left: auto;
+            right: 25px;
+        }
+    }
+}
+
+.btn-pull-right {
+    position:absolute;
+    right:0;
+    top:0;
+}
+
+
+
+
+
+
+
+
+
+
