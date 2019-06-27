@@ -7,11 +7,12 @@ export default class formValidation {
             company: optionsObj.company,
             country: optionsObj.country,
             email: optionsObj.email,
-            role_label: optionsObj.role_label,
-            role_radio: optionsObj.role_radio,
             submit_button: optionsObj.submit_button
           };
           this.valid_form = false;
+          this.radioFields = [];
+          this.inputFields = [];
+          this.radioGroupNames =[];
           this.validObj = {
             firstNameInput: false,
             lastNameInput: false,
@@ -22,17 +23,48 @@ export default class formValidation {
           };
     }
 
+    //todo:
+    //if there is no radio button
+    //add checkmark validation
+    //ajax function with dynamic callback
+    
+
     init() {
         this.bindSubmitEvent();
+        this.getFields();
     };
 
     bindSubmitEvent() {
       document.querySelector(this.options.submit_button).addEventListener("click", this.validateForm.bind(this));
     };
 
+    getFields(){
+      let flds = document.querySelectorAll(this.options.req_fields);
+      
+      //convert list of nodes to array in case some browsers dont support iteration of dom nodes
+      // flds = Array.prototype.slice.call(flds);
+      flds = Array.from(flds);
+
+      //create array of radioFields, all other input fields, and radio group names
+      for (let fld of flds){
+        if (fld.type == "radio"){
+          this.radioFields.push(fld);
+        }
+        else {
+          this.inputFields.push(fld);
+        }
+      }
+
+      for (let item of this.radioFields){
+        if (this.radioGroupNames.indexOf(item.name) < 0) {
+          this.radioGroupNames.push(item.name);
+        }
+      }
+
+    }
+
     bindChangeFieldEvent() {
       let reqFields = document.querySelectorAll(this.options.req_fields);
-      //reqFields = Array.prototype.slice.call(reqFields);
       reqFields = Array.from(reqFields);
 
       reqFields.forEach(item => { //text fields
@@ -44,22 +76,18 @@ export default class formValidation {
         }
       });
 
-      let radioFields = document.querySelectorAll(this.options.role_radio);
-      // radioFields = Array.prototype.slice.call(radioFields);
-      radioFields = Array.from(radioFields);
-      radioFields.forEach( item => {
-        item.addEventListener("change", this.validateRole.bind(this));
+
+      this.radioFields.forEach( item => {
+        item.addEventListener("change", this.validateRadio.bind(this, item.name));
       });
-      
+
     };
 
     validateForm(){
       this.bindChangeFieldEvent();
       this.validateFields();
-      this.validateRole();
   
       // //check if at least one value in validObj is false
-      // //support ie11
       let answersArray = [];
       for (let key in this.validObj) {
         answersArray.push(this.validObj[key]);
@@ -77,17 +105,12 @@ export default class formValidation {
 
     validateFields() {
       let self = this;
-      let flds = document.querySelectorAll(this.options.req_fields);
-      
-      //convert list of nodes to array in case some browsers dont support iteration of dom nodes
-      // flds = Array.prototype.slice.call(flds);
-      flds = Array.from(flds);
 
-      for (let fld of flds) {
+      //check if input fields are empty(not radios)
+      for (let fld of this.inputFields) {
         fld.classList.remove("invalid");
         //if empty fields
         if (!fld.value) {
-          console.log("empty");
           fld.classList.add("invalid");
           self.validObj[fld.getAttribute("name")] = false;
         } //not empty
@@ -99,6 +122,11 @@ export default class formValidation {
             self.validObj[fld.getAttribute("name")] = true;
           }
         }
+      }
+
+      //validate radio groups
+      for (let name of this.radioGroupNames){
+        this.validateRadio(name);
       }
 
       console.log(this.validObj);
@@ -122,26 +150,25 @@ export default class formValidation {
       return regex.test(email);
     };
 
-    validateRole() {
-      //get all role_labels, convert nodeList to array 
-      let roleLabels = document.querySelectorAll(this.options.role_label);
-      // roleLabels = Array.prototype.slice.call(roleLabels);
-      roleLabels = Array.from(roleLabels);
+    validateRadio(groupName) {
+      let allRadiosInGroup = document.getElementsByName(groupName);
+      allRadiosInGroup = Array.from(allRadiosInGroup);
 
-      roleLabels.forEach(item => {
-        item.classList.remove("invalidRadio");
-      })
+      //remove invalid class from all labels in the group
+      for (let radio of allRadiosInGroup){
+        radio.closest("label").classList.remove("invalidRadio");
+      }
 
-      if (document.querySelector(`${this.options.role_radio}:checked`)==null){
-        roleLabels.forEach(item => {
-            item.classList.add("invalidRadio");
-        });
+      //check if at least one radio in each group is checked
+      if (document.querySelector(`input[name=${groupName}]:checked`) == null){
+        for (let radio of allRadiosInGroup){
+          radio.closest("label").classList.add("invalidRadio");
+        }
         this.validObj.role = false;
       }
       else {
         this.validObj.role = true;
       }
-
     };
 
     submitForm() {
@@ -150,11 +177,11 @@ export default class formValidation {
         lastName: document.querySelector(this.options.last_name).value,
         company: document.querySelector(this.options.company).value,
         country: document.querySelector(this.options.country).value,
-        email: document.querySelector(this.options.email).value,
-        role: document.querySelector(this.options.role_radio + ":checked").value
+        email: document.querySelector(this.options.email).value
+        //role: document.querySelector(this.options.role_radio + ":checked").value
       };
 
-      console.log(user);
+      //console.log(user);
 
       //this.handleSubmitConfirmation();
 
